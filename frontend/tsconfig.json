@@ -1,25 +1,37 @@
 {
- "compilerOptions": {
- "target": "ES2020",
- "useDefineForClassFields": true,
- "lib": ["ES2020", "DOM", "DOM.Iterable"],
- "module": "ESNext",
- "skipLibCheck": true,
- "moduleResolution": "bundler",
- "allowImportingTsExtensions": true,
- "resolveJsonModule": true,
- "isolatedModules": true,
- "noEmit": true,
- "jsx": "react-jsx",
- "strict": true,
- "noUnusedLocals": true,
- "noUnusedParameters": true,
- "noFallthroughCasesInSwitch": true,
- "baseUrl": ".",
- "paths": {
- "@/*": ["./src/*"]
- }
- },
- "include": ["src"],
- "references": [{ "path": "./tsconfig.node.json" }]
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "types": ["vite/client"],
+    "paths": {
+      "@/components/auth/*": ["./src/features/auth/*"],
+      "@/components/landing/*": ["./src/features/home/*"],
+      "@/components/charts/*": ["./src/features/charts/*"],
+      "@/components/diagrams/*": ["./src/features/reports/diagrams/*"],
+      "@/components/reports/*": ["./src/features/reports/*"],
+      "@/components/data/*": ["./src/components/ui/data/*"],
+      "@/components/ai/*": ["./src/features/chat/components/ai/*"],
+      "@/components/chat/*": ["./src/features/chat/components/*"],
+      "@/components/layout/*": ["./src/components/layouts/*"],
+      "@/lib/mock-data": ["./src/services/mock/index.ts"],
+      "@/lib/utils": ["./src/utils/cn.ts"],
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

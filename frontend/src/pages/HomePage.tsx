@@ -1,47 +1,129 @@
-import { BarChart3, Database, MessageSquare, TrendingUp } from 'lucide-react'
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Sparkles, Zap, BarChart3, Database, MessageSquare } from 'lucide-react';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { useNavigate } from '@tanstack/react-router';
+import { AskBaseLogo } from '@/components/ui/AskBaseLogo';
+import { toast } from 'sonner';
 
-const stats = [
- { label: 'Total Projects', value: '12', icon: Database, change: '+2' },
- { label: 'Queries Today', value: '1,234', icon: MessageSquare, change: '+12%' },
- { label: 'Charts Generated', value: '45', icon: BarChart3, change: '+8' },
- { label: 'Avg. Response', value: '1.2s', icon: TrendingUp, change: '-0.3s' },
-]
+import VoiceMode from '@/components/ai/VoiceMode';
 
-export default function HomePage() {
- return (
- <div>
- <div className="mb-6">
- <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
- <p className="text-gray-600 mt-1">Welcome to AskBase</p>
- </div>
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
- {stats.map((stat) => {
- const Icon = stat.icon
- return (
- <div key={stat.label} className="bg-white rounded-lg shadow p-6">
- <div className="flex items-center justify-between">
- <div>
- <p className="text-sm text-gray-600">{stat.label}</p>
- <p className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
- </div>
- <Icon size={24} className="text-blue-500" />
- </div>
- <p className="text-sm text-green-600 mt-2">{stat.change}</p>
- </div>
- )
- })}
- </div>
- <div className="bg-white rounded-lg shadow p-6">
- <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
- <div className="space-y-4">
- {['Created new project "Sales Analytics"', 'Generated report for "Q3 Revenue"', 'Updated dashboard "Marketing KPIs"'].map((activity, i) => (
- <div key={i} className="flex items-center gap-3 text-gray-700">
- <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
- <span>{activity}</span>
- </div>
- ))}
- </div>
- </div>
- </div>
- )
+export function HomePage() {
+  const user = useAuthStore((state) => state.user);
+  const navigate = useNavigate();
+  const [greeting, setGreeting] = useState('');
+  const [isVoiceOpen, setIsVoiceOpen] = useState(false);
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) setGreeting('Good morning');
+    else if (hour < 18) setGreeting('Good afternoon');
+    else if (hour < 21) setGreeting('Good evening');
+    else setGreeting('Good night');
+  }, []);
+
+  const handlePrompt = (prompt: string) => {
+    navigate({ to: '/app/chat' });
+  };
+
+  return (
+    <div className="flex-1 flex flex-col p-8 overflow-y-auto bg-background">
+      <VoiceMode isOpen={isVoiceOpen} onClose={() => setIsVoiceOpen(false)} />
+      <div className="max-w-4xl mx-auto w-full pt-12 pb-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-6 mb-2"
+        >
+          <AskBaseLogo size={64} className="rounded-2xl shadow-lg" />
+          <h1 className="text-4xl font-black uppercase tracking-tighter text-foreground flex items-center gap-4">
+            <span>{greeting}, {user?.name?.split(' ')[0]}.</span>
+            <motion.div
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.5, 1, 0.5]
+              }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className="w-3 h-3 bg-primary rounded-full blur-[2px]"
+            />
+          </h1>
+        </motion.div>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="text-sm text-muted-foreground font-medium mb-12"
+        >
+          What would you like to understand today?
+        </motion.p>
+
+        <div className="relative group">
+          <div className="absolute inset-0 bg-primary/5 rounded-[40px] blur-xl transition-all group-hover:blur-2xl" />
+          <div className="relative bg-card border border-border rounded-[40px] p-6 shadow-sm hover:border-primary/50 transition-all">
+            <textarea
+              className="w-full h-32 p-4 text-sm font-medium text-foreground placeholder:text-muted-foreground resize-none outline-none bg-transparent"
+              placeholder="Ask anything about your data..."
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handlePrompt('');
+                }
+              }}
+            />
+            <div className="flex items-center justify-between mt-2 pt-4 border-t border-border">
+              <div className="flex items-center gap-2">
+                <input
+                  type="file"
+                  id="home-resource-upload"
+                  className="hidden"
+                  multiple
+                  onChange={(e) => {
+                    if (e.target.files?.length) {
+                      toast.success(`${e.target.files.length} resources staged.`);
+                    }
+                  }}
+                />
+                <button
+                  onClick={() => document.getElementById('home-resource-upload')?.click()}
+                  className="p-2 text-muted-foreground hover:text-primary hover:bg-muted rounded-full transition-all"
+                >
+                  <Sparkles size={16} />
+                </button>
+                <button
+                  onClick={() => setIsVoiceOpen(true)}
+                  className="px-3 py-1.5 bg-muted text-muted-foreground text-[9px] font-black uppercase tracking-widest rounded-full hover:bg-primary hover:text-primary-foreground transition-all"
+                >
+                  Voice Mode
+                </button>
+              </div>
+              <button
+                onClick={() => handlePrompt('')}
+                className="px-6 py-2 bg-primary text-primary-foreground text-[9px] font-black uppercase tracking-widest rounded-full hover:bg-primary/90 transition-all"
+              >
+                Send Analysis
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
+          {[
+            { icon: MessageSquare, label: 'New Chat', to: '/app/chat' },
+            { icon: BarChart3, label: 'Dashboard', to: '/app/dashboard' },
+            { icon: Database, label: 'Projects', to: '/app/projects' },
+            { icon: Zap, label: 'Insights', to: '/app/chat' },
+          ].map((action, i) => (
+            <button
+              key={i}
+              onClick={() => navigate({ to: action.to as any })}
+              className="flex items-center gap-3 p-4 bg-card border border-border rounded-[24px] hover:border-primary transition-all text-foreground hover:shadow-sm group"
+            >
+              <action.icon size={16} className="text-muted-foreground group-hover:text-primary transition-colors" />
+              <span className="text-[9px] font-black uppercase tracking-widest">{action.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
