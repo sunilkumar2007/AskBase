@@ -1,4 +1,4 @@
 """AskBase AI Backend - Services package."""
-from app.services.gemini import get_gemini_service, GeminiService
+from app.services.project_service import ProjectService
 
-__all__ = ["get_gemini_service", "GeminiService"]
+__all__ = ["ProjectService"]
