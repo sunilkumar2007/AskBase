@@ -1,3 +1,4 @@
+"""AskBase AI Backend - Tools package."""
 from app.tools.get_schema import get_schema
 from app.tools.execute_query import execute_query
 from app.tools.explain_data import explain_data
