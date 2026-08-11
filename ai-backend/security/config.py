@@ -1,8 +1,10 @@
-from dotenv import load_dotenv
-import os
+"""AskBase AI Backend - Security Configuration.
 
-load_dotenv()
+Re-exports the relevant settings from the main config module.
+No dotenv loading here — handled centrally in app.config.
+"""
+from __future__ import annotations
 
-JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "your-secret-key")
-JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
-JWT_EXPIRATION = int(os.getenv("JWT_EXPIRATION", 3600))
+from app.config import settings
+
+__all__ = ["settings"]
