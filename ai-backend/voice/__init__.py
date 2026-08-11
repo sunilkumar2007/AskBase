@@ -25,11 +25,9 @@ from voice.exceptions import (
 	VoiceTranscriptionError,
 )
 from voice.providers.base import BaseSTTProvider, BaseTTSProvider
-from voice.service import VoiceService
 from voice.validation import detect_mime_type, get_extension, validate_audio_upload
 
 __all__ = [
-	"VoiceService",
 	"VoiceSettings",
 	"VoiceError",
 	"VoiceFileError",

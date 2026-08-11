@@ -9,7 +9,6 @@ import logging
 from pathlib import PurePath
 from typing import BinaryIO
 
-from app.config import settings
 from voice.config import VoiceSettings
 from voice.exceptions import (
 	VOICE_DURATION_INVALID,

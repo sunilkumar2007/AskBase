@@ -9,9 +9,6 @@ import time
 import uuid
 from typing import Any
 
-from app.agent.agent import Agent
-from app.agent.context import AgentContext
-from app.config import settings
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from voice.config import VoiceSettings
@@ -23,12 +20,30 @@ from voice.exceptions import (
 	VoiceProcessingError,
 	VoiceTranscriptionError,
 )
-from voice.providers.gemini_stt import GeminiSTTProvider
 from voice.providers.base import BaseSTTProvider
+from voice.providers.gemini_stt import GeminiSTTProvider
 from voice.processing import process_transcript
 from voice.validation import validate_audio_upload
 
 logger = logging.getLogger("askbase")
+
+
+def _get_agent_class():
+	"""Lazy import to avoid triggering broken app modules at import time."""
+	from app.agent.agent import Agent
+	return Agent
+
+
+def _get_agent_context_class():
+	"""Lazy import to avoid triggering broken app modules at import time."""
+	from app.agent.context import AgentContext
+	return AgentContext
+
+
+def _get_settings():
+	"""Lazy import to avoid triggering broken app modules at import time."""
+	from app.config import settings
+	return settings
 
 
 class VoiceService:
@@ -153,8 +168,13 @@ class VoiceService:
 				"elapsed_ms": round((time.perf_counter() - t0) * 1000),
 			}
 
-		# Step 7: Build context and run agent
+		# Step 7: Build context and run agent (lazy import to avoid
+		# triggering broken app modules at package import time)
 		try:
+			Agent = _get_agent_class()
+			AgentContext = _get_agent_context_class()
+			settings = _get_settings()
+
 			context = AgentContext(
 				conversation_id=conversation_id or str(uuid.uuid4()),
 				project_id=project_id,

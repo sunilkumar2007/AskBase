@@ -7,7 +7,6 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from app.services.gemini import get_gemini_service
 from voice.exceptions import VoiceTranscriptionError
 from voice.providers.base import BaseSTTProvider
 
@@ -27,12 +26,9 @@ class GeminiSTTProvider(BaseSTTProvider):
 		return self._gemini
 
 	async def transcribe(self, audio_bytes: bytes, language: str = "en") -> dict:
-		"""Transcribe audio using Gemini's multimodal capability.
-
-		Note: Gemini processes audio as inline_data (base64).
-		We send a prompt asking for transcription in the target language.
-		"""
-		if not self._gemini.enabled:
+		"""Transcribe audio using Gemini's multimodal capability."""
+		gemini = await self._get_gemini()
+		if not gemini.enabled:
 			raise VoiceTranscriptionError(
 				code="VOICE_PROVIDER_UNAVAILABLE",
 				message="Gemini API not configured.",
