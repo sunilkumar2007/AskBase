@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+ --color-primary: #CB2958;
+ --color-primary-hover: #A91F49;
+ --color-text-primary: #1D242E;
+ --color-text-secondary: #6B7280;
+ --color-border: #DDDDDD;
+ --color-surface-muted: #EEEEEE;
+ --color-background: #FAFAFA;
+ --color-surface: #FFFFFF;
+}
+
+body {
+ margin: 0;
+ background-color: var(--color-background);
+ color: var(--color-text-primary);
+ font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+ -webkit-font-smoothing: antialiased;
+ -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar for AskBase */
+::-webkit-scrollbar {
+ width: 6px;
+ height: 6px;
+}
+::-webkit-scrollbar-track {
+ background: #EEEEEE;
+}
+::-webkit-scrollbar-thumb {
+ background: #CBD5E1;
+ border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+ background: #94A3B8;
+}
+
+/* AskBase Button Utilities */
+.btn-askbase-primary {
+ background-color: #CB2958;
+ color: #FFFFFF;
+ font-weight: 700;
+ border-radius: 8px;
+ transition: background-color 0.15s ease-in-out;
+}
+.btn-askbase-primary:hover {
+ background-color: #A91F49;
+}
+
+.btn-askbase-secondary {
+ background-color: #FFFFFF;
+ color: #1D242E;
+ border: 1px solid #DDDDDD;
+ font-weight: 700;
+ border-radius: 8px;
+ transition: background-color 0.15s ease-in-out;
+}
+.btn-askbase-secondary:hover {
+ background-color: #EEEEEE;
+}
+
+/* Landing Page Styles */
+.landing-container {
+ position: relative;
+ min-height: 100vh;
+ overflow-x: hidden;
+}
+
+/* Smooth scrolling for landing page */
+html {
+ scroll-behavior: smooth;
+}
+
+/* Selection styling */
+::selection {
+ background-color: rgba(203, 41, 88, 0.1);
+ color: #CB2958;
+}
+
+/* Prevent layout shift during page load */
+#root {
+ min-height: 100vh;
+}
