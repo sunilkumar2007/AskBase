@@ -1,0 +1,18 @@
+{
+  "title": "Test_JSON",
+  "row_count": 2,
+  "columns": [
+    "ColA",
+    "ColB"
+  ],
+  "data": [
+    {
+      "ColA": "ValA1",
+      "ColB": "ValB1"
+    },
+    {
+      "ColA": "ValA2",
+      "ColB": "ValB2"
+    }
+  ]
+}
