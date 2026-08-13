@@ -1,10 +1,12 @@
 <p align="center">
-  <img src="snapshots/logo.png" alt="AskBase Logo" width="320px" />
+  <br />
+  <img src="snapshots/logo.png" alt="AskBase Logo" width="520px" style="max-width: 100%; filter: drop-shadow(0px 8px 16px rgba(0,0,0,0.1));" />
+  <br />
+  <br />
+  <strong>Natural Language Data Analytics Platform</strong>
+  <br />
+  <em>Empowering enterprise teams and business analysts to query, visualize, and report on database schemas using conversational AI.</em>
 </p>
-
-# AskBase
-
-> Natural Language Data Analytics Platform
 
 ---
 
@@ -14,6 +16,26 @@
 * 📂 **AI RAG Chat Interface:** Upload custom files (CSV, PDF, Excel, JSON) to chat contextually with your database data.
 * ⚙️ **Metadata Schema Inspector:** Proactively inspect database schemas, run Autopilot analysis, or diagnose anomaly root causes.
 * 🎙️ **Voice AI Subsystem:** Search and control your analytics workspaces using voice commands with Gemini-powered STT.
+* 📊 **Workflow Page & Diagram:** Explore the full system data-flow pipeline and sidebar routes directory in the [System Workflow & Directory page](docs/WORKFLOW.md).
+
+---
+
+## ⌨️ Interaction Mechanics: Slash & At-Commands
+
+AskBase features a command-driven prompt interface designed to streamline data operations directly inside the chat window.
+
+### 1. Slash Commands (`/`)
+Typing `/` triggers the slash commands suggestion dropdown, enabling rapid workspace navigation and session actions:
+* `/report` — Triggers an automatic route redirect to the **Reports Page** to download generated report assets.
+* `/schema` — Navigates directly to the **Schema Inspector** workspace.
+* `/clear` — Instantly resets the current conversation session thread and clears the screen.
+* `/help` — Submits a system instruction request to list all available database tables and slash command usages.
+
+### 2. At-Commands (`@` Table Tags)
+Typing `@` pops up the database table tags selection menu. This allows users to explicitly target specific tables inside their natural language prompts:
+* Available tags: `@sales`, `@customers`, `@orders`, `@products`, `@revenue`.
+* **Example Prompt:** *"How many items were sold in `@sales` for customers in `@customers`?"*
+* **How it works:** Tagging tables bypasses schema ambiguity and forces the Gemini agent tools to construct Joins using the specified tables.
 
 ---
 
@@ -69,22 +91,32 @@ AskBase offers robust export tags enabling downloads in industry-standard format
 |---|
 | ![Reports List](snapshots/reports_list.png) |
 
-### ⚙️ 6. Project Spaces & Data Connections
+### ⚙️ 6. Project Spaces, Workspace Settings & Global Currencies
 Manage multiple database connections and configure custom company contexts.
 * Supports **SQLite, PostgreSQL, MySQL, and Supabase** database connectors.
-* Create workspaces and customize company profile reporting currencies (e.g. INR ₹).
+* Supports **35 global currencies** (INR, USD, EUR, GBP, JPY, CAD, etc.) with a built-in search and selection dropdown.
 
 | Projects & Connections | Workspace Settings |
 |---|---|
 | ![Projects List](snapshots/projects_list.png) | ![Settings](snapshots/settings.png) |
 
-### 📈 7. Custom Dashboard Builder & Widgets
+| Global Currencies Selector |
+|---|
+| ![Currencies Dropdown](snapshots/currency_selector.png) |
+
+### 🔐 7. Authentication & Sign Up Workspace
+Manage your team account credentials, switch between profiles, and secure your session data.
+| OAuth Sign Up / Create Account | Account Settings Panel |
+|---|---|
+| ![Sign Up Modal](snapshots/signup_modal.png) | ![Account settings](snapshots/auth_settings.png) |
+
+### 📈 8. Custom Dashboard Builder & Widgets
 Create custom dashboard workspaces and add new visual widgets (Bar Charts, Line Charts, KPI Metric Cards) via the interactive modal.
 | Custom Dashboard Workspace | Add Dashboard Widget Modal |
 |---|---|
 | ![Dashboard Workspace](snapshots/dashboard_workspace.png) | ![Add Widget Modal](snapshots/add_widget_modal.png) |
 
-### 🎙️ 8. Autonomous Voice AI Agent
+### 🎙️ 9. Autonomous Voice AI Agent
 Query and command your data workspace verbally. The agent features two modes: Listening for input, and Speaking answers aloud using Gemini STT/TTS normalization.
 | Listening Mode | Speaking Mode |
 |---|---|
